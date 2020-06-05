@@ -1,0 +1,24 @@
+<div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 login-box">
+  <form [formGroup]='loginForm' class="text-center border border-light p-5">
+    <p class="h4 mb-4">Log in</p>
+    <div class="imgcontainer">
+      <img src="../../assets/user.png" alt="Avatar" class="avatar">
+    </div>
+    <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="email or username" autofocus
+       name="userName" formControlName="userName" required>
+    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password" 
+      name="password" formControlName="password" required>
+
+    <button color="info" class="my-4 login-btn" type="submit">Sign up</button>
+    &nbsp;
+    <button (click)="login(userName,password)" color="info" class="my-4" type="submit">Log in</button>
+
+    <div class="d-flex justify-content-around">
+      <div>
+        <a href="">
+          <small> Forgot password?</small>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
