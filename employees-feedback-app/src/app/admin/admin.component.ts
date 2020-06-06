@@ -11,11 +11,12 @@ export class AdminComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   employees: Array<any> = [];
+  actionType: '';
   constructor(private modalService: BsModalService, private employeeService: EmployeeService) { }
 
   ngOnInit() {
     this.employeeService.getEmployees().subscribe(response => {
-      this.employees = response;
+      this.employees = response.employees;
     });
   }
 
@@ -33,7 +34,9 @@ export class AdminComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  openModalEmpInfo(template: TemplateRef<any>) {
+  openModalEmpInfo(template: TemplateRef<any>, actionType) {
+
+    this.actionType = actionType;
     this.modalRef = this.modalService.show(
       template,
       Object.assign({}, { class: 'gray modal-lg' })

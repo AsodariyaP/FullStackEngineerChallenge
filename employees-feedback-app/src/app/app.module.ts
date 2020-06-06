@@ -1,15 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { RatingModule } from 'ngx-bootstrap/rating';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { EmployeeReviewsComponent } from './employee-reviews/employee-reviews.component';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { EmployeeComponent } from './employee/employee.component';
 
 @NgModule({
@@ -24,8 +25,9 @@ import { EmployeeComponent } from './employee/employee.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpModule,
+    HttpClientModule,
     ModalModule.forRoot(),
+    RatingModule.forRoot(),
     FormsModule,
     ReactiveFormsModule
   ],

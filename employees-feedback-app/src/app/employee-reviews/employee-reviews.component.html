@@ -3,7 +3,7 @@
         <h3 class="one">Employee reviews list</h3>
     </div>
     <div class="col-auto">
-        <button class="btn btn-success pull-right" title="add review" (click)="openModalReview(template)">
+        <button class="btn btn-success pull-right" title="add review" (click)="openModalReview(template, 'Add')">
             <svg class="bi bi-file-earmark-plus" width="1.2em" height="1.2em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 1H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5v-1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h5v2.5A1.5 1.5 0 0 0 10.5 6H13v2h1V6L9 1z" />
@@ -11,15 +11,45 @@
                 <path fill-rule="evenodd" d="M13 12.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z" />
             </svg>
         </button>
+        <button class="btn btn-outline-dark pull-right ml-2" routerLink="/admin/employees">Back</button>
+    </div>
+</div>
+<hr />
+<div class="card bg-light" style="width: 100%;">
+    <div class="card-body">
+        <div class="row form-group">
+            <div class="col-3">
+                <p class="card-text">Employee Name:</p>
+            </div>
+            <div class="col-3">
+                <p class="card-text">Job title: </p>
+            </div>
+            <div class="col-3">
+                <p class="card-text">Department: </p>
+            </div>
+            <div class="col-3">
+                <p class="card-text">Review Period: </p>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Reviewers</span>
+            </div>
+            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
     </div>
 </div>
 
-<table class="table table-hover">
+<table class="table table-hover mt-3">
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Department</th>
+            <th scope="col" class="text-center">Quality of work</th>
+            <th scope="col" class="text-center">Team worker</th>
+            <th scope="col" class="text-center">Initiative</th>
+            <th scope="col" class="text-center">Communication</th>
+            <!-- <th scope="col">Attitude</th> -->
+            <th scope="col">Period</th>
             <th scope="col">Feedback</th>
             <th scope="col">Reviewer</th>
             <th scope="col" class="text-center">Actions</th>
@@ -28,12 +58,27 @@
     <tbody>
         <tr *ngFor="let review of reviews; index as i;">
             <th scope="row">{{ i + 1 }}</th>
-            <td>{{review.name}}</td>
-            <td>{{review.department}}</td>
-            <td>Ahfoiwhe ehgowh ohego</td>
+            <td class="text-center">
+                <rating [(ngModel)]="review.quality_work" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
+            </td>
+            <td class="text-center">
+                <rating [(ngModel)]="review.relation_coworkers" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
+            </td>
+            <td class="text-center">
+                <rating [(ngModel)]="review.initiative" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
+            </td>
+            <td class="text-center">
+                <rating [(ngModel)]="review.communication" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
+            </td>
+            <!-- <td>
+                <rating [(ngModel)]="review.attitude" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"
+                    [titles]="['one','two','three']"></rating>
+            </td> -->
+            <td>{{review.time_period}}</td>
+            <td>{{review.feedback}}</td>
             <td>{{review.reviewer}}</td>
             <td class="text-center">
-                <a href="javascript:void(0)" class="pr-2" title="update employee review" (click)="openModalReview(template)">
+                <a href="javascript:void(0)" class="pr-2" title="update employee review" (click)="openModalReview(template,'Edit')">
                     <svg class="bi bi-pencil-square" width="1.2em" height="1.2em" viewBox="0 0 16 16" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -47,7 +92,7 @@
 
 <ng-template #template>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Add Review</h4>
+        <h4 class="modal-title pull-left">{{actionType}} Review</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -60,36 +105,24 @@
                     <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="validationDefault02">Last name</label>
+                    <label for="validationDefault02">Department</label>
                     <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="validationDefault03">City</label>
+                <div class="col-md-12 mb-3">
+                    <label for="validationDefault03">Reviewer</label>
                     <input type="text" class="form-control" id="validationDefault03" required>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationDefault04">State</label>
-                    <select class="custom-select" id="validationDefault04" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option>...</option>
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationDefault05">Zip</label>
-                    <input type="text" class="form-control" id="validationDefault05" required>
                 </div>
             </div>
             <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                    <label class="form-check-label" for="invalidCheck2">
-                        Agree to terms and conditions
-                    </label>
-                </div>
+                <label for="exampleFormControlTextarea1">Feedback</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
-            <button class="btn btn-primary" type="submit">Submit form</button>
+            <hr />
+            <div class="float-right">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
         </form>
     </div>
 </ng-template>

@@ -24,10 +24,11 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.loginForm.status === 'VALID') {
       const user = this.loginForm.value;
-      console.log(user);
       if (user.userName === 'admin' && user.password === 'admin') {
+        sessionStorage.setItem('username', user.userName );
         this.router.navigate(['/admin/employees']);
       } else if (user.userName === 'employee' && user.password === 'employee') {
+        sessionStorage.setItem('username', user.userName );
         this.router.navigate(['/employee']);
       }
     }

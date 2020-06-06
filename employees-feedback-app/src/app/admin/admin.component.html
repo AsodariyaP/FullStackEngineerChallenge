@@ -3,7 +3,7 @@
         <h3 class="one">Employee list</h3>
     </div>
     <div class="col-auto">
-        <button class="btn btn-success pull-right" title="add new employee" (click)="openModalEmpInfo(template)">
+        <button class="btn btn-success pull-right" title="add new employee" (click)="openModalEmpInfo(template, 'Add')">
             <svg class="bi bi-person-plus-fill" width="1.2em" height="1.2em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
@@ -33,7 +33,7 @@
             <td>{{emp.email}}</td>
             <td>{{emp.phone}}</td>
             <td class="text-right">
-                <a href="javascript:void(0)" class="pr-2" title="update employee details" (click)="openModalEmpInfo(template)">
+                <a href="javascript:void(0)" class="pr-2" title="update employee details" (click)="openModalEmpInfo(template, 'Edit')">
                     <svg class="bi bi-pencil-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -46,7 +46,7 @@
                         <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
                     </svg>
                 </a>
-                <a routerLink="/admin/employees/reviews" title="write employee review">
+                <a routerLink="/admin/employees/reviews/{{i + 1}}" title="write employee review">
                     <svg class="bi bi-file-earmark-text" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 1h5v1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6h1v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z" />
@@ -69,7 +69,7 @@
 
 <ng-template #template>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Add Employee</h4>
+        <h4 class="modal-title pull-left">{{actionType}} Employee</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -88,31 +88,24 @@
             </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                    <label for="validationDefault03">City</label>
-                    <input type="text" class="form-control" id="validationDefault03" required>
+                    <label for="validationDefault03">DOB</label>
+                    <input type="date" class="form-control" id="validationDefault03" required>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationDefault04">State</label>
-                    <select class="custom-select" id="validationDefault04" required>
-                        <option selected disabled value="">Choose...</option>
-                        <option>...</option>
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationDefault05">Zip</label>
-                    <input type="text" class="form-control" id="validationDefault05" required>
+                <div class="col-md-6 mb-3">
+                    <label for="validationDefault03">Phone</label>
+                    <input type="tel" class="form-control" id="validationDefault03" required>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                    <label class="form-check-label" for="invalidCheck2">
-                        Agree to terms and conditions
-                    </label>
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <label for="validationDefault03">Email</label>
+                    <input type="email" class="form-control" id="validationDefault03" required>
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit">Submit form</button>
+            <hr/>
+            <div class="float-right">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
         </form>
-
     </div>
 </ng-template>

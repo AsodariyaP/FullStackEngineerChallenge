@@ -17,7 +17,7 @@ export class EmployeeComponent implements OnInit {
 
   ngOnInit() {
     this.employeeService.getReviews().subscribe(response => {
-      this.reviews = response;
+      this.reviews = response.reviews;
     });
   }
 

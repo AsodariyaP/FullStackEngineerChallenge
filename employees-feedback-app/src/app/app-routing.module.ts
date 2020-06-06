@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'admin/employees', component: AdminComponent },
-  { path: 'admin/employees/reviews', component: EmployeeReviewsComponent },
+  { path: 'admin/employees/reviews/:id', component: EmployeeReviewsComponent },
   { path: 'employee', component: EmployeeComponent }
 
 ];
