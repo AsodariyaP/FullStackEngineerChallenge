@@ -15,7 +15,24 @@ export class EmployeeService {
     return this.httpClient.get(this.REST_API_SERVER + '/api/employees');
   }
 
+  addEmployee(employee): Observable<any> {
+    return this.httpClient.post(this.REST_API_SERVER + '/api/employees', employee);
+  }
+
+  deleteEmployee(id): Observable<any> {
+    return this.httpClient.delete(this.REST_API_SERVER + '/api/employees/' + id);
+  }
+
+  getEmployeeInfoById(id): Observable<any> {
+    const data = { emplId: id };
+    return this.httpClient.post(this.REST_API_SERVER + '/api/employee_get_by_id', data);
+  }
+
   getReviews(): Observable<any> {
     return this.httpClient.get(this.REST_API_SERVER + '/api/reviews');
+  }
+
+  addReview(review): Observable<any> {
+    return this.httpClient.post(this.REST_API_SERVER + '/api/reviews', review);
   }
 }

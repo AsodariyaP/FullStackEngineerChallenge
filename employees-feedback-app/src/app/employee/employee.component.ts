@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { EmployeeService } from '../employee.service';
-
+import { Employee } from './employee.interface';
 
 @Component({
   selector: 'app-employee',
@@ -9,6 +9,7 @@ import { EmployeeService } from '../employee.service';
   styleUrls: ['./employee.component.css']
 })
 export class EmployeeComponent implements OnInit {
+  private employee: Employee;
   modalRef: BsModalRef;
   message: string;
   reviews: Array<any> = [];
@@ -16,6 +17,7 @@ export class EmployeeComponent implements OnInit {
 
 
   ngOnInit() {
+    this.employee = new Employee();
     this.employeeService.getReviews().subscribe(response => {
       this.reviews = response.reviews;
     });
@@ -26,6 +28,5 @@ export class EmployeeComponent implements OnInit {
       template,
       Object.assign({}, { class: 'gray modal-lg' })
     );
-}
-
+  }
 }

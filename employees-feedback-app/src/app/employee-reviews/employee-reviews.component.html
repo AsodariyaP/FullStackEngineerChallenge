@@ -19,16 +19,16 @@
     <div class="card-body">
         <div class="row form-group">
             <div class="col-3">
-                <p class="card-text">Employee Name:</p>
+                <p class="card-text">Employee Name: {{ employeeInfo?.first_name }} {{ employeeInfo?.last_name }}</p>
             </div>
             <div class="col-3">
-                <p class="card-text">Job title: </p>
+                <p class="card-text">Job Title: {{ employeeInfo?.job_title }}</p>
             </div>
             <div class="col-3">
-                <p class="card-text">Department: </p>
+                <p class="card-text">Department: {{ employeeInfo?.department }}</p>
             </div>
             <div class="col-3">
-                <p class="card-text">Review Period: </p>
+                <p class="card-text">Email: {{ employeeInfo?.email }} </p>
             </div>
         </div>
         <div class="input-group mb-3">
@@ -40,6 +40,7 @@
     </div>
 </div>
 
+
 <table class="table table-hover mt-3">
     <thead>
         <tr>
@@ -49,7 +50,7 @@
             <th scope="col" class="text-center">Initiative</th>
             <th scope="col" class="text-center">Communication</th>
             <!-- <th scope="col">Attitude</th> -->
-            <th scope="col">Period</th>
+            <th scope="col">Review Period</th>
             <th scope="col">Feedback</th>
             <th scope="col">Reviewer</th>
             <th scope="col" class="text-center">Actions</th>
@@ -59,26 +60,25 @@
         <tr *ngFor="let review of reviews; index as i;">
             <th scope="row">{{ i + 1 }}</th>
             <td class="text-center">
-                <rating [(ngModel)]="review.quality_work" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
+                <rating name='quality_work' [(ngModel)]="review.quality_work" [max]="max" [readonly]="isReadonly"
+                    (onHover)="hoveringOver($event)"></rating>
             </td>
             <td class="text-center">
-                <rating [(ngModel)]="review.relation_coworkers" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
+                <rating name='relation_coworkers' [(ngModel)]="review.relation_coworkers" [max]="max" [readonly]="isReadonly"
+                    (onHover)="hoveringOver($event)"></rating>
             </td>
             <td class="text-center">
-                <rating [(ngModel)]="review.initiative" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
+                <rating name='initiative' [(ngModel)]="review.initiative" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
             </td>
             <td class="text-center">
-                <rating [(ngModel)]="review.communication" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"></rating>
+                <rating name='communication' [(ngModel)]="review.communication" [max]="max" [readonly]="isReadonly"
+                    (onHover)="hoveringOver($event)"></rating>
             </td>
-            <!-- <td>
-                <rating [(ngModel)]="review.attitude" [max]="max" [readonly]="isReadonly" (onHover)="hoveringOver($event)"
-                    [titles]="['one','two','three']"></rating>
-            </td> -->
-            <td>{{review.time_period}}</td>
+            <td>{{review.time_period_from | date:'yyyy-MM-dd'}} ~ {{review.time_period_to | date:'yyyy-MM-dd'}}</td>
             <td>{{review.feedback}}</td>
             <td>{{review.reviewer}}</td>
             <td class="text-center">
-                <a href="javascript:void(0)" class="pr-2" title="update employee review" (click)="openModalReview(template,'Edit')">
+                <a href="javascript:void(0)" class="pr-2" title="update employee review" (click)="openModalReview(template,'Edit', review)">
                     <svg class="bi bi-pencil-square" width="1.2em" height="1.2em" viewBox="0 0 16 16" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -100,28 +100,56 @@
     <div class="modal-body">
         <form>
             <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">First name</label>
-                    <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefault01">Quality of work:</label>
+                    <span class="ml-2">
+                        <rating [(ngModel)]="review.qualityWork" name='work' [max]="max" (onHover)="hoveringOver($event)"
+                            (onLeave)="resetStar()"></rating>
+                    </span>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="validationDefault02">Department</label>
-                    <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefault02">Team worker:</label>
+                    <span class="ml-2">
+                        <rating [(ngModel)]="review.relationCoworkers" name='team' [max]="max" (onHover)="hoveringOver($event)"
+                            (onLeave)="resetStar()"></rating>
+                    </span>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefault01">Initiative: </label>
+                    <span class="ml-2">
+                        <rating [(ngModel)]="review.initiative" name='initiative' [max]="max" (onHover)="hoveringOver($event)"
+                            (onLeave)="resetStar()"></rating>
+                    </span>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-12 mb-3">
-                    <label for="validationDefault03">Reviewer</label>
-                    <input type="text" class="form-control" id="validationDefault03" required>
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefault02">Communication: </label>
+                    <span class="ml-2">
+                        <rating [(ngModel)]="review.communication" name='comm' [max]="max" (onHover)="hoveringOver($event)"
+                            (onLeave)="resetStar()"></rating>
+                    </span>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefault02">Review Period From: </label>
+                    <input type="date" [(ngModel)]="review.timePeriodFrom" name='from' class="form-control" id="validationDefault03"
+                        required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationDefault02">Review Period To: </label>
+                    <input type="date" [(ngModel)]="review.timePeriodTo" name='to' class="form-control" id="validationDefault03"
+                        required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Feedback</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control w-100" [(ngModel)]="review.feedback" name='feedback' maxlength="100" id="exampleFormControlTextarea1"
+                    rows="3"></textarea>
             </div>
             <hr />
             <div class="float-right">
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit" (click)='addUpdateReview()'>Submit</button>
             </div>
         </form>
     </div>
