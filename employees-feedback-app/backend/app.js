@@ -2,11 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+/* import modals */
 const Employee = require('./models/employee');
 const Review = require('./models/review');
 
 const app = express();
 
+/* connect to DB using mongoose connection string*/
 mongoose.connect('mongodb+srv://pradip028:geN5SghIAN2bzwW9@cluster0-n7bqz.mongodb.net/employee-manage?retryWrites=true&w=majority')
     .then(() => {
         console.log('Connect to MongoDB successfully!')
@@ -24,6 +26,7 @@ app.use((req, res, next) => {
     next();
 });
 
+/* get employees list API */
 app.get("/api/employees", (req, res, next) => {
     Employee.find().then((employeeData => {
         res.status(200).json({
@@ -33,6 +36,7 @@ app.get("/api/employees", (req, res, next) => {
     }));
 });
 
+/* add/update employees list API */
 app.post("/api/employees", (req, res, next) => {
     if (req.body._id) {
         /* Update new employee details */
@@ -61,6 +65,7 @@ app.post("/api/employees", (req, res, next) => {
     }
 });
 
+/* delete employee by id */
 app.delete("/api/employees/:id", (req, res, next) => {
     Employee.deleteOne({ _id: req.params.id }).then(result => {
         res.status(200).json({
@@ -69,6 +74,7 @@ app.delete("/api/employees/:id", (req, res, next) => {
     });
 });
 
+/* get employee info by id */
 app.post("/api/employee_get_by_id", (req, res, next) => {
     let data = req.body;
     Employee.findById(data.emplId).then((doc) => {
@@ -83,6 +89,7 @@ app.post("/api/employee_get_by_id", (req, res, next) => {
     })
 });
 
+/* add employee review */
 app.post("/api/reviews", (req, res, next) => {
     if (req.body._id) {
         /* Update new employee details */
@@ -102,6 +109,7 @@ app.post("/api/reviews", (req, res, next) => {
             time_period_from: req.body.time_period_from,
             reviewer: req.body.reviewer,
             feedback: req.body.feedback,
+            emp_id: req.body.emp_id,
         });
 
         review.save();
@@ -111,8 +119,10 @@ app.post("/api/reviews", (req, res, next) => {
     }
 });
 
-app.get("/api/reviews", (req, res, next) => {
-    Review.find().then((reviewData => {
+/* get employee review by id */
+app.post("/api/reviews_by_id", (req, res, next) => {
+    let data = req.body;
+    Review.find(data).then((reviewData => {
         res.status(200).json({
             messege: 'get reviews successfully',
             reviews: reviewData

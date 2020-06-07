@@ -29,14 +29,14 @@ export class AdminComponent implements OnInit {
 
   addUpdateEmployee() {
     const employee = {
+      _id: this.employee.id,
       first_name: this.employee.firstName,
       last_name: this.employee.lastName,
       job_title: this.employee.jobTitle,
       department: this.employee.department,
       dob: this.employee.dob,
       email: this.employee.email,
-      phone: this.employee.phone,
-      _id: this.employee.id
+      phone: this.employee.phone
     };
     this.employeeService.addEmployee(employee).subscribe(response => {
       this.getEmployees();
@@ -69,12 +69,11 @@ export class AdminComponent implements OnInit {
       this.employee.jobTitle = data.job_title;
       this.employee.phone = data.phone;
       this.employee.email = data.email;
-      this.employee.dob = new Date(data.dob);
+      this.employee.dob = data.dob;
       this.employee.id = data._id;
     }
 
     this.actionType = actionType;
-    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' })
-    );
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'gray modal-lg' }));
   }
 }

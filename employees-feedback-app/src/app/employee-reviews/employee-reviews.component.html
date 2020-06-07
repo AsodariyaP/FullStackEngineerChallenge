@@ -15,7 +15,8 @@
     </div>
 </div>
 <hr />
-<div class="card bg-light" style="width: 100%;">
+<div class="card" style="width: 100%;">
+    <div class="card-header">Employee Information</div>
     <div class="card-body">
         <div class="row form-group">
             <div class="col-3">
@@ -32,16 +33,15 @@
             </div>
         </div>
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">Reviewers</span>
-            </div>
-            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+            <tag-input [ngModel]="reviewersInfo" identifyBy="_id" displayBy="fullName" (onAdd)="onAssignReviewer($event)" (onRemove)="onRemovedReviewer($event)" [onlyFromAutocomplete]="true">
+                <tag-input-dropdown identifyBy="_id" displayBy="fullName" [autocompleteItems]="employees">
+                </tag-input-dropdown>
+            </tag-input>
         </div>
     </div>
 </div>
 
-
-<table class="table table-hover mt-3">
+<table class="table table-hover mt-3" *ngIf="reviews.length > 0">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -89,6 +89,10 @@
         </tr>
     </tbody>
 </table>
+
+<div class="alert alert-dark mt-3" role="alert" *ngIf="reviews.length === 0">
+    <h6 class="text-center">No review(s) found</h6>
+</div>
 
 <ng-template #template>
     <div class="modal-header">

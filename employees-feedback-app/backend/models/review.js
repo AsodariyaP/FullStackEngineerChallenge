@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = mongoose.Schema({
+    emp_id: { type: String },
     quality_work: { type: String },
     relation_coworkers: { type: String },
     initiative: { type: String },

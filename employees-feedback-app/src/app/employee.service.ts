@@ -28,8 +28,9 @@ export class EmployeeService {
     return this.httpClient.post(this.REST_API_SERVER + '/api/employee_get_by_id', data);
   }
 
-  getReviews(): Observable<any> {
-    return this.httpClient.get(this.REST_API_SERVER + '/api/reviews');
+  getReviews(id): Observable<any> {
+    const data = { emp_id: id };
+    return this.httpClient.post(this.REST_API_SERVER + '/api/reviews_by_id', data);
   }
 
   addReview(review): Observable<any> {

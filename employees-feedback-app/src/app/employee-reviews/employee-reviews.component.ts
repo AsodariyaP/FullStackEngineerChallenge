@@ -3,6 +3,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { EmployeeService } from '../employee.service';
 import { ActivatedRoute } from '@angular/router';
 import { Review } from './review.interface';
+import { TagInputModule } from 'custom-ngx-chips';
 
 @Component({
   selector: 'app-employee-reviews',
@@ -10,6 +11,7 @@ import { Review } from './review.interface';
   styleUrls: ['./employee-reviews.component.css']
 })
 export class EmployeeReviewsComponent implements OnInit {
+  reviewersInfo = [];
   private review: Review;
   modalRef: BsModalRef;
   reviews: Array<any> = [];
@@ -20,9 +22,19 @@ export class EmployeeReviewsComponent implements OnInit {
   percent: number;
   empId = '';
   employeeInfo: any;
+  employees: Array<any> = [];
   constructor(private modalService: BsModalService, private employeeService: EmployeeService, private route: ActivatedRoute) {
     this.route.paramMap.subscribe(params => {
       this.empId = params.get('id');
+    });
+
+    TagInputModule.withDefaults({
+      tagInput: {
+        placeholder: 'Add a new reviewer',
+      },
+      dropdown: {
+        displayBy: 'select reviewer',
+      }
     });
   }
 
@@ -35,11 +47,29 @@ export class EmployeeReviewsComponent implements OnInit {
   getEmployeeInfoById() {
     this.employeeService.getEmployeeInfoById(this.empId).subscribe(response => {
       this.employeeInfo = response.data;
+      this.getEmployees();
+    });
+  }
+
+  getEmployees() {
+    this.employeeService.getEmployees().subscribe(response => {
+      this.employees = response.employees;
+      /* self not assign for review remove employee */
+      this.employees = this.employees.filter(e => e._id !== this.empId);
+      this.employees.forEach((emp, ind) => {
+        this.employees[ind].fullName = emp.first_name + ' ' + emp.last_name;
+        /* set default reviewer */
+        if (this.employeeInfo.reviewers.length > 0) {
+          if (this.employeeInfo.reviewers.some(x => x === emp._id)) {
+            this.reviewersInfo.push({ _id: emp._id, fullName: emp.first_name + ' ' + emp.last_name });
+          }
+        }
+      });
     });
   }
 
   getReviews() {
-    this.employeeService.getReviews().subscribe(response => {
+    this.employeeService.getReviews(this.empId).subscribe(response => {
       this.reviews = response.reviews;
     });
   }
@@ -69,6 +99,7 @@ export class EmployeeReviewsComponent implements OnInit {
       time_period_from: this.review.timePeriodFrom,
       reviewer: 'Admin',
       feedback: this.review.feedback,
+      emp_id: this.empId,
       _id: this.review.id
     };
     this.employeeService.addReview(review).subscribe(response => {
@@ -87,4 +118,18 @@ export class EmployeeReviewsComponent implements OnInit {
     this.overStar = void 0;
   }
 
+  onAssignReviewer(data) {
+    this.employeeInfo.reviewers.push(data._id);
+    this.employeeService.addEmployee(this.employeeInfo).subscribe(response => {
+    });
+  }
+
+  onRemovedReviewer(data) {
+    const index = this.employeeInfo.reviewers.indexOf(data._id);
+    if (index > -1) {
+      this.employeeInfo.reviewers.splice(index, 1);
+    }
+    this.employeeService.addEmployee(this.employeeInfo).subscribe(response => {
+    });
+  }
 }

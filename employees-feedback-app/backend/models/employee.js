@@ -7,7 +7,8 @@ const employeeSchema = mongoose.Schema({
     department: { type: String },
     dob: { type: Date },
     email: { type:  String },
-    phone: { type: String }
+    phone: { type: String },
+    reviewers: { type: Array }
 });
 
 module.exports = mongoose.model('Employee', employeeSchema);

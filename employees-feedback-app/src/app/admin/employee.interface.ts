@@ -7,4 +7,5 @@ export class Employee {
     dob: Date;
     email: string;
     phone: string;
+    reviewers: Array<string>;
 }
