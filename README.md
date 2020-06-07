@@ -37,3 +37,12 @@ Design a web application that allows employees to submit feedback toward each ot
 * Technology and design choices
 * Identify areas of your strengths
 * This is not a pass or fail test, this will serve as a common ground that we can deep dive together into specific issues
+
+
+## Application configurations steps.
+* Clone the app in local system.
+* Project Technology MongoDB, Express, Angular, Node.
+* Go to project root folder and run command **npm install**
+* Start Backend server using command => npm run start:server; run on localhost:3000 default port.
+* Start Frontend server using command => ng s run on localhost:4200 default port.
+
