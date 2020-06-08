@@ -3,7 +3,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { EmployeeService } from '../employee.service';
 import { ActivatedRoute } from '@angular/router';
 import { Review } from './review.interface';
-import { TagInputModule } from 'custom-ngx-chips';
+import { TagInputModule } from 'ngx-chips';
 
 @Component({
   selector: 'app-employee-reviews',

@@ -1,12 +1,11 @@
 <nav class="navbar navbar-light bg-light">
   <a class="navbar-brand" href="#">Employee Management</a>
-  <ul class="nav navbar-nav" *ngIf="router.url != '/'">
+  <ul class="nav navbar-nav" *ngIf="isLoginRoute()">
     <li class="nav-item">
         <span>Welcome {{username}}</span> 
         <span class="ml-3">
           <button class="btn btn-danger" (click)='logout()' routerLink="/">Logout</button>
         </span>
-        <!-- <a class="nav-link" href="#">Welcome admin</a> -->
     </li>
     
 </ul>

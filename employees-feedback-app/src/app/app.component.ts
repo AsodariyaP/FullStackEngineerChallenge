@@ -17,6 +17,10 @@ export class AppComponent implements AfterViewInit {
     this.username = sessionStorage.getItem('username');
   }
 
+  isLoginRoute() {
+    return this.router.url === '/';
+  }
+
   logout() {
     sessionStorage.removeItem('username');
   }

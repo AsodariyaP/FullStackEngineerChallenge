@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RatingModule } from 'ngx-bootstrap/rating';
-import { TagInputModule } from 'custom-ngx-chips';
+import { TagInputModule } from 'ngx-chips';
 
 import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
